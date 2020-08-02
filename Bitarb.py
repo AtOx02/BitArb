@@ -143,8 +143,8 @@ def integration(liquid_b,liquid_s,bf_buy,bf_sell,gmo_ask,gmo_bid):
         bitflyer_sell = int(bf_sell.recv())
         liquid_buy = float(liquid_b.get())
         liquid_sell = float(liquid_s.get())
-        gmoask = gmo_ask.get()
-        gmobid = gmo_bid.get()
+        gmoask = float(gmo_ask.get())
+        gmobid = float(gmo_bid.get())
         #------------------------------------------------------------------
         matome = dict(ask=[liquid_buy,bitflyer_buy,bitbank_buy,coincheck_buy,gmoask],bid=[liquid_sell,bitflyer_sell,bitbank_sell,coincheck_sell,gmobid])
         matome = pd.DataFrame(data=matome,index=['liquid','bitflyer','bitbank','coincheck','gmo'])
@@ -170,7 +170,7 @@ if __name__ =='__main__':
         
     bf = Process(target=bitflyer_ws,args=(bf_tube1,bf_tube2,))
     lq = threading.Thread(target=liquid_ws,args=(q_buy,q_sell,))
-    gm = threading.Thread(target=gmo,args=(gmo_ask,gmo_bid))
+    gm = threading.Thread(target=gmo_ws,args=(gmo_ask,gmo_bid))
     main_roop = threading.Thread(target=integration,args=(q_buy,q_sell,bf_buy,bf_sell,gmo_ask,gmo_bid,))
     
     lq.start()
