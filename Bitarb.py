@@ -78,8 +78,8 @@ def liquid_ws(soushin_buy, soushin_sell):
 
 
 def gmo_ws(gmo_ask, gmo_bid):
-    print("gmostart")
-    websocket.enableTrace(True)
+    # print("gmostart")
+    websocket.enableTrace(False)
     ws = websocket.WebSocketApp("wss://api.coin.z.com/ws/public/v1")
 
     def on_open(self):
@@ -105,31 +105,7 @@ def gmo_ws(gmo_ask, gmo_bid):
 
 
 def integration(liquid_b, liquid_s, bf_buy, bf_sell, gmo_ask, gmo_bid):
-    # print('main start')
-    # ------------------WEBSOCKET-------------------------------------------
-    bitflyer_buy = bf_buy.recv()
-    bitflyer_sell = bf_sell.recv()
-    liquid_buy = liquid_b.get()
-    liquid_sell = liquid_s.get()
-    gmoask = gmo_ask.get()
-    gmobid = gmo_bid.get()
-    # --------------------------------------------------------------
-    # ----------------REST_API----------------------------------------------
-    bitbank = bitb.fetch_ticker("BTC/JPY")
-    bitbank_buy = bitbank["ask"]
-    bitbank_sell = bitbank["bid"]
-    coincheck = ccc.fetch_ticker("BTC/JPY")
-    coincheck_buy = coincheck["ask"]
-    coincheck_sell = coincheck["bid"]
-    # -----------------------------------------------------------------
-    matome = dict(
-        ask=[liquid_buy, bitflyer_buy, bitbank_buy, coincheck_buy, gmoask],
-        bid=[liquid_sell, bitflyer_sell, bitbank_sell, coincheck_sell, gmobid],
-    )
-    matome = pd.DataFrame(
-        data=matome, index=["liquid", "bitflyer", "bitbank", "coincheck", "gmo"]
-    )
-    # print(matome)
+
     sleep(0.3)
     while True:
         # ------------RESTAPI----------------------------------------------------
@@ -199,4 +175,4 @@ if __name__ == "__main__":
     bf.start()
     gm.start()
     main_roop.start()
-    print("Liquid,Bitflyer--websocket Bitbank,Coincheck--RestApi ")
+    # print("Liquid,Bitflyer--websocket Bitbank,Coincheck--RestApi ")
