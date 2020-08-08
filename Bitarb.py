@@ -106,7 +106,6 @@ def gmo_ws(gmo_ask, gmo_bid):
 
 def integration(liquid_b, liquid_s, bf_buy, bf_sell, gmo_ask, gmo_bid):
 
-    sleep(0.3)
     while True:
         # ------------RESTAPI----------------------------------------------------
         bitbank = bitb.fetch_ticker("BTC/JPY")
@@ -161,8 +160,8 @@ if __name__ == "__main__":
     bf_sell, bf_tube2 = Pipe()
     q_buy = queue.LifoQueue()
     q_sell = queue.LifoQueue()
-    gmo_ask = queue.Queue()
-    gmo_bid = queue.Queue()
+    gmo_ask = queue.LifoQueue()
+    gmo_bid = queue.LifoQueue()
 
     bf = Process(target=bitflyer_ws, args=(bf_tube1, bf_tube2,))
     lq = threading.Thread(target=liquid_ws, args=(q_buy, q_sell,))
